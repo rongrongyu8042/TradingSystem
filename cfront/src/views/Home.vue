@@ -1,21 +1,13 @@
 <template>
-    <div class="wrapper">
-        <!--        第一步-->
-        <v-header/>
+    <div>
+        <!-- 引入头部导航栏-->
+        <v-header></v-header>
 
-        <!--        第二步-->
-        <v-sidebar/>
+        <!-- 引入侧边导航栏-->
+        <v-sidebar></v-sidebar>
 
-        <!--        第三步-->
-        <!--        <div class="content-box">-->
-        <!--            <div class="content">-->
-        <!--                <transition name="move" mode="out-in">-->
-        <!--                    <router-view></router-view>-->
-        <!--                </transition>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
-        <!--        第四步-->
+        <!--<router-view></router-view>-->
+        <!-- 主页面业务-->
         <div class="content-box" :class="{'content-collapse':collapse}">
             <div class="content">
                 <transition name="move" mode="out-in">
@@ -23,33 +15,36 @@
                 </transition>
             </div>
         </div>
+
     </div>
 </template>
 
 <script>
-    //这么命名是为了防止和html本身的标签起冲突
-    import vHeader from '../components/Header.vue';
-    import vSidebar from '../components/Sidebar.vue';
+
+    import vHeader from '../components/Header'
+    import vSidebar from '../components/Sidebar'
 
 
     export default {
+        name: 'Home',
         data() {
             return {
-                tagsList: [],
                 collapse: false,
-            };
+            }
         },
         components: {
             vHeader,
             vSidebar
         },
         created() {
-
-            this.$bus.on('collapse-content', msg => {
+            this.$bus.on("collapse-content", msg => {
+                this.collapse = msg;
+            })
+        },
+        beforeDestroy() {
+            this.$bus.off("collapse-content", msg => {
                 this.collapse = msg;
             });
-
-        },
+        }
     }
-
 </script>

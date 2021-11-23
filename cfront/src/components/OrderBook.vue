@@ -1,49 +1,78 @@
 <template>
-    <!--  订单簿窗口  -->
+    <!--订单簿窗口-->
     <el-form label-width="80px">
+        <!-- 行情时间-->
         <el-form-item>
-            <h4 style="color:#909399;">行情时间:{{hqtime}}</h4>
+            <h4 style="color:#909399">
+                行情时间:{{hqtime}}
+            </h4>
         </el-form-item>
+        <!--五档行情-->
         <el-form-item>
+            <!--卖-->
             <div class="orderBook">
                 <el-row v-for="item in sell" :key="item.name">
+                    <!--档位名称-->
                     <el-col :span="6">{{item.name}}</el-col>
+                    <!--价格-->
                     <el-col :span="6">{{item.price | filterempty}}</el-col>
+                    <!--长度-->
                     <el-col :span="6">
                         <div class="volumeratio">
-                            <div class="sell" v-bind:style="{width: item.width+'%'}"/>
+                            <div class="sell" v-bind:style="
+                                    {width: item.width+'%'}"
+                            />
                         </div>
                     </el-col>
-                    <el-col :span="6">{{item.volume | filterempty}}</el-col>
+                    <!--量-->
+                    <el-col :span="6">
+                        {{item.volume | filterempty}}
+                    </el-col>
                 </el-row>
+            </div>
+            <!--买-->
+            <div class="orderBook">
+                <el-row v-for="item in buy" :key="item.name">
+                    <!--档位名称-->
+                    <el-col :span="6">{{item.name}}</el-col>
+                    <!--价格-->
+                    <el-col :span="6">{{item.price | filterempty}}</el-col>
+                    <!--长度-->
+                    <el-col :span="6">
+                        <div class="volumeratio">
+                            <div class="buy" v-bind:style="{width: item.width+'%'}"
+                            />
+                        </div>
+                    </el-col>
+                    <!--量-->
+                    <el-col :span="6">
+                        {{item.volume | filterempty}}
+                    </el-col>
+                </el-row>
+
             </div>
 
-            <div class="orderBook" style="border-top: none;">
-                <el-row v-for="item in buy" :key="item.name">
-                    <el-col :span="6">{{item.name}}</el-col>
-                    <el-col :span="6">{{item.price | filterempty}}</el-col>
-                    <el-col :span="6">
-                        <div class="volumeratio">
-                            <div class="buy" v-bind:style="{width: item.width+'%'}"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">{{item.volume | filterempty}}</el-col>
-                </el-row>
-            </div>
         </el-form-item>
+
 
     </el-form>
 </template>
 
 <script>
-
     export default {
         name: "OrderBook",
+        filters: {
+            filterempty(value) {
+                if (value === -1) {
+                    return '-';
+                } else {
+                    return value;
+                }
+            }
+        },
         data() {
             return {
                 hqtime: '--:--:--',
-                hqtimestamp: 0,
-
                 sell: [
                     {
                         name: "卖五",
@@ -74,7 +103,7 @@
                         price: -1,
                         volume: -1,
                         width: 1,
-                    }
+                    },
                 ],
                 buy: [
                     {
@@ -108,18 +137,8 @@
                         width: 1,
                     },
                 ],
-
             }
-        },
-        filters: {
-            filterempty(value) {
-                if (value === -1) {
-                    return '-';
-                } else {
-                    return value;
-                }
-            },
-        },
+        }
     }
 </script>
 
@@ -151,4 +170,5 @@
             }
         }
     }
+
 </style>

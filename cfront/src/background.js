@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow,dialog,globalShortcut } from 'electron'
 import {
   createProtocol,
   installVueDevtools
@@ -56,13 +56,25 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+
+  globalShortcut.register("CommandOrControl+Alt+K",
+      function () {
+          dialog.showMessageBox({
+              type: 'info',
+              message : '成功了~',
+              buttons:['好的']
+          })
+      })
+
+
+
   if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-  await installVueDevtools()
-} catch (e) {
-  console.error('Vue Devtools failed to install:', e.toString())
-}
+//     // Install Vue Devtools
+//     try {
+//   await installVueDevtools()
+// } catch (e) {
+//   console.error('Vue Devtools failed to install:', e.toString())
+// }
 
   }
   createWindow()
